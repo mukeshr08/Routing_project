@@ -6,6 +6,7 @@ const PostPage = () => {
     <div>
         <h1>PostPage</h1>
         
+        
     </div>
   )
 }

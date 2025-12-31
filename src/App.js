@@ -8,7 +8,7 @@ import Missing from './Missing';
 import NewPost from './NewPost';
 import PostPage from './PostPage';
 import Post from './Post';
-import postLayouts from './postLayouts';
+import PostLayouts from './PostLayouts';
 function App() {
   return (
     <div className="App">
@@ -23,11 +23,13 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/about' element={<About/>}/>
-        <Route path='/postpage' element={<postLayouts/>}>
-          <Route path='newpost' element={<NewPost/>}/>
-          <Route index element={<PostPage/>}/>
-          <Route path=':id' element={<Post/>}/>
+        <Route path='/postpage' element={<PostLayouts/>}>
+        <Route index element={<PostPage/>}/>
+        <Route path=':id' element={<Post/>}/>
+        <Route path='newpost' element={<NewPost/>}/>
         </Route>
+        
+          
         <Route path='*' element={<Missing/>}/>
       </Routes>
       
