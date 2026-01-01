@@ -1,4 +1,4 @@
-import { Route,Routes,Link } from 'react-router-dom';
+import { navigate, Route,Routes, useNavigate } from 'react-router-dom';
 import About from './About';
 import './App.css';
 import Header from './Header';
@@ -7,11 +7,11 @@ import Missing from './Missing';
 import Nav from './Nav';
 import Footer from './Footer'
 import NewPost from './NewPost';
-import PostPage from './PostPage';
-import Post from './Post';
-import PostLayouts from './PostLayouts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import PostPage from './PostPage' 
 function App() {
+  const navigate=useNavigate()
   const [Posts,setPosts]=useState([
   {
     id: 1,
@@ -46,6 +46,31 @@ function App() {
 ]
 )
   const [SearchPost,setSearchPost]=useState('')
+  const [getTitle,setgetTitle]=useState('')
+  const [getContent,setgetContent]=useState('')
+  const [SearchResults,setSearchResults]=useState('')
+  const HandleNewPost=(e)=>{
+    e.preventDefault();
+    const id=Posts.length?Posts[Posts.length-1].id+1:1
+    const datetime=format(new Date(),'MMMM dd yyyy pp')
+    const newPost={id,title:getTitle,datetime,body:getContent}
+    const allPosts=[...Posts,newPost]
+    setPosts(allPosts)
+    setgetTitle('')
+    setgetContent('')
+    navigate('/')
+    
+  }
+  useEffect(()=>{
+    const  FilterResults=Posts.filter((post)=>((post.body).toLowerCase()).includes(SearchPost)||
+  ((post.title).toLowerCase()).includes(SearchPost))
+  setSearchResults(FilterResults.reverse())
+  },[Posts,SearchPost])
+  const HandleDelete=(id)=>{
+    const afterDelete=Posts.filter(post=>post.id!==id)
+    setPosts(afterDelete)
+    navigate('/')
+  }
   return (
     
     <div className="App">
@@ -56,14 +81,30 @@ function App() {
       SearchPost={SearchPost}
       setSearchPost={setSearchPost}
       />
-      <Home
+      <Routes>
+      <Route path="/"element={<Home
+      Posts={SearchResults}
+      />}/>
+      
+      <Route path='/about' element={<About/>}/>
+      
+      <Route path='post'>
+      <Route index element={<NewPost
+      getTitle={getTitle}
+      setgetTitle={setgetTitle}
+      getContent={getContent}
+      setgetContent={setgetContent}
+      HandleNewPost={HandleNewPost}
+      />}/>
+      <Route path=':id' element={<PostPage 
       Posts={Posts}
-      />
-      <About/>
-      <NewPost/>
-      <PostPage/>
-      <Missing/>
+      HandleDelete={HandleDelete}/>}/>
+      </Route>
+      
+      <Route path='*' element={<Missing/>}/>
+      </Routes>
       <Footer/>
+        
       
     </div>
   );
