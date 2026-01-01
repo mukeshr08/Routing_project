@@ -3,7 +3,7 @@ import React from 'react'
 
 const PostPage = () => {
   return (
-    <div>
+    <div className='PostPage'>
         <h1>PostPage</h1>
         
         

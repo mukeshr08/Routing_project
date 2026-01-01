@@ -2,7 +2,7 @@ import React from 'react'
 
 const Missing = () => {
   return (
-    <div>
+    <div className='Missing'>
         <h1>Missing</h1>
     </div>
   )
