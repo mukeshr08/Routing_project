@@ -1,0 +1,40 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "My First Post",
+      "datetime": "July 01, 2024 11:17:36 AM",
+      "body": "This is my first post content"
+    },
+    {
+      "id": "2",
+      "title": "Learning React",
+      "datetime": "July 03, 2024 09:45:12 AM",
+      "body": "Today I started learning React basics like components and props."
+    },
+    {
+      "id": "3",
+      "title": "JavaScript Tips",
+      "datetime": "July 05, 2024 02:30:45 PM",
+      "body": "Sharing some useful JavaScript tips for beginners."
+    },
+    {
+      "id": "4",
+      "title": "CSS Flexbox",
+      "datetime": "July 07, 2024 06:10:20 PM",
+      "body": "Flexbox makes layout design easier and more responsive."
+    },
+    {
+      "id": "5",
+      "title": "My Learning Journey",
+      "datetime": "July 10, 2024 08:55:00 AM",
+      "body": "Documenting my progress in web development step by step."
+    },
+    {
+      "id": "6",
+      "title": "hii",
+      "datetime": "January 02 2026 11:28:24 PM",
+      "body": "hello"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { navigate, Route,Routes, useNavigate } from 'react-router-dom';
+import {  Route,Routes, useNavigate } from 'react-router-dom';
 import About from './About';
 import './App.css';
 import Header from './Header';
@@ -10,66 +10,70 @@ import NewPost from './NewPost';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import PostPage from './PostPage' 
+import api from './api/posts';
 function App() {
   const navigate=useNavigate()
-  const [Posts,setPosts]=useState([
-  {
-    id: 1,
-    title: "My First Post",
-    datetime: "July 01, 2024 11:17:36 AM",
-    body: "This is my first post content"
-  },
-  {
-    id: 2,
-    title: "Learning React",
-    datetime: "July 03, 2024 09:45:12 AM",
-    body: "Today I started learning React basics like components and props."
-  },
-  {
-    id: 3,
-    title: "JavaScript Tips",
-    datetime: "July 05, 2024 02:30:45 PM",
-    body: "Sharing some useful JavaScript tips for beginners."
-  },
-  {
-    id: 4,
-    title: "CSS Flexbox",
-    datetime: "July 07, 2024 06:10:20 PM",
-    body: "Flexbox makes layout design easier and more responsive."
-  },
-  {
-    id: 5,
-    title: "My Learning Journey",
-    datetime: "July 10, 2024 08:55:00 AM",
-    body: "Documenting my progress in web development step by step."
-  }
-]
-)
+  const [Posts,setPosts]=useState([])
   const [SearchPost,setSearchPost]=useState('')
   const [getTitle,setgetTitle]=useState('')
   const [getContent,setgetContent]=useState('')
   const [SearchResults,setSearchResults]=useState('')
-  const HandleNewPost=(e)=>{
+  const HandleNewPost=async(e)=>{
     e.preventDefault();
-    const id=Posts.length?Posts[Posts.length-1].id+1:1
+    let id=Posts.length?Number(Posts[Posts.length-1].id)+1:1
+     id=String(id)
     const datetime=format(new Date(),'MMMM dd yyyy pp')
     const newPost={id,title:getTitle,datetime,body:getContent}
-    const allPosts=[...Posts,newPost]
+    try{
+      const response =await api.post('/posts',newPost)
+    const allPosts=[...Posts,response.data]
     setPosts(allPosts)
+
     setgetTitle('')
     setgetContent('')
     navigate('/')
+    }catch(err){
+        console.log(`Error ${err.message}`)
+
+      }
+    
     
   }
+  useEffect(()=>{
+    const fetchData =async()=>{
+      try{
+        const response= await api.get('/posts')
+        setPosts(response.data)
+      }catch(err){
+        if(err.response){
+          console.log(err.response.data)
+          console.log(err.response.status)
+          console.log(err.response.headers)
+
+        }
+        console.log(`Error ${err.message}`)
+
+      }
+      
+    }
+    fetchData()
+  },[])
   useEffect(()=>{
     const  FilterResults=Posts.filter((post)=>((post.body).toLowerCase()).includes(SearchPost)||
   ((post.title).toLowerCase()).includes(SearchPost))
   setSearchResults(FilterResults.reverse())
   },[Posts,SearchPost])
-  const HandleDelete=(id)=>{
-    const afterDelete=Posts.filter(post=>post.id!==id)
+  const HandleDelete= async(id)=>{
+    try{
+      const afterDelete=Posts.filter(post=>post.id!==id)
+      const response=await api.delete(`/posts/${id}`)
     setPosts(afterDelete)
     navigate('/')
+    }catch(err){
+        console.log(`Error ${err.message}`)
+
+      }
+    
   }
   return (
     
