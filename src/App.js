@@ -69,7 +69,7 @@ function App() {
   const HandleDelete= async(id)=>{
     try{
       const afterDelete=Posts.filter(post=>post.id!==id)
-      const response=await api.delete(`/posts/${id}`)
+      await api.delete(`/posts/${id}`)
     setPosts(afterDelete)
     navigate('/')
     }catch(err){
@@ -82,8 +82,8 @@ function App() {
     const datetime=format(new Date(),'MMMM dd,yyyy pp')
     const updatePost={id,title:editTitle,datetime,body:editContent}
     try{
-      const response=await api.put(`/post/${id}`,updatePost)
-      setPosts(Posts.map((post)=>post.id===id?{...response.data}:data))
+      const response=await api.put(`/posts/${id}`,updatePost)
+      setPosts(Posts.map((post)=>post.id===id?{...response.data}:post))
       seteditTitle('')
       seteditContent('')
       navigate('/')
@@ -122,8 +122,9 @@ function App() {
       <Route path=':id' element={<PostPage 
       Posts={Posts}
       HandleDelete={HandleDelete}/>}/>
+       
       </Route>
-      <Route path='edit/:id' element={<Edit
+     <Route path='edit/:id' element={<Edit
       Posts={Posts}
       editTitle={editTitle}
       editContent={editContent}

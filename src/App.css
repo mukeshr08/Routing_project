@@ -190,6 +190,67 @@
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+/* EditPost Styles */
+.EditPost {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #764ba2;
+}
+
+.EditPost h2 {
+  color: #764ba2;
+  font-size: 1.8rem;
+  margin-bottom: 1.25rem;
+}
+
+.EditPost form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.EditPost label {
+  font-weight: 600;
+  color: #333;
+}
+
+.EditPost input,
+.EditPost textarea {
+  padding: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.EditPost input:focus,
+.EditPost textarea:focus {
+  outline: none;
+  border-color: #764ba2;
+  box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.08);
+}
+
+.EditPost button {
+  padding: 1rem;
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.EditPost button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(118, 75, 162, 0.35);
+}
+
 /* Post Styles */
 .Post {
   background-color: white;

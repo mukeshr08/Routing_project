@@ -4,17 +4,19 @@ import { useParams } from 'react-router-dom'
 const Edit = ({Posts,editTitle,seteditTitle,editContent,seteditContent,HandleEdit}) => {
     const {id}=useParams()
     const post=Posts.find((post)=>(post.id).toString()===id)
+    console.log(post)
     useEffect(()=>{
         if(post){
-        seteditTitle={post.title}
-        seteditContent={post.body}
+        seteditTitle(post.title)
+        seteditContent(post.body)
         }
         
     },[post,seteditTitle,seteditContent])
+    console.log(editTitle)
   return (
-    <main>
+    <main className='EditPost'>
         <h2>Edit Post</h2>
-        <form >
+        <form  onSubmit={(e=>e.preventDefault())}>
             <label htmlFor="title">Post title</label>
             <input type="text"
             id='title'
