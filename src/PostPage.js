@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
 
 const PostPage = ({Posts,HandleDelete}) => {
   const {id}=useParams();
@@ -15,9 +15,11 @@ const PostPage = ({Posts,HandleDelete}) => {
             <h2>{post.title}</h2>
             <p>{post.datatime}</p>
             <p>{post.body}</p>
+            <Link to={`edit/${post.id}`}><button>Edit Post</button></Link>
             <button onClick={()=>{
               HandleDelete(post.id)
             }}>Delete</button>
+            
             </>}
             {
               !post&&

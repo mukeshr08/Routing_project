@@ -11,12 +11,15 @@ import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import PostPage from './PostPage' 
 import api from './api/posts';
+import Edit from './Edit';
 function App() {
   const navigate=useNavigate()
   const [Posts,setPosts]=useState([])
   const [SearchPost,setSearchPost]=useState('')
   const [getTitle,setgetTitle]=useState('')
   const [getContent,setgetContent]=useState('')
+   const [editTitle,seteditTitle]=useState('')
+  const [editContent,seteditContent]=useState('')
   const [SearchResults,setSearchResults]=useState('')
   const HandleNewPost=async(e)=>{
     e.preventDefault();
@@ -75,6 +78,22 @@ function App() {
       }
     
   }
+  const HandleEdit=async(id)=>{
+    const datetime=format(new Date(),'MMMM dd,yyyy pp')
+    const updatePost={id,title:editTitle,datetime,body:editContent}
+    try{
+      const response=await api.put(`/post/${id}`,updatePost)
+      setPosts(Posts.map((post)=>post.id===id?{...response.data}:data))
+      seteditTitle('')
+      seteditContent('')
+      navigate('/')
+      
+
+    }catch(err){
+      console.log(`Error ${err.message}`)
+    }
+
+  }
   return (
     
     <div className="App">
@@ -104,6 +123,14 @@ function App() {
       Posts={Posts}
       HandleDelete={HandleDelete}/>}/>
       </Route>
+      <Route path='edit/:id' element={<Edit
+      Posts={Posts}
+      editTitle={editTitle}
+      editContent={editContent}
+      seteditTitle={seteditTitle}
+      seteditContent={seteditContent}
+      HandleEdit={HandleEdit}
+      />}/>
       
       <Route path='*' element={<Missing/>}/>
       </Routes>
