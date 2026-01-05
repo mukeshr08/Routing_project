@@ -12,6 +12,8 @@ import { format } from 'date-fns';
 import PostPage from './PostPage' 
 import api from './api/posts';
 import Edit from './Edit';
+import useWindowresize from './hooks/useWindowresize';
+import useAxiosfetch from './hooks/useAxiosfetch';
 function App() {
   const navigate=useNavigate()
   const [Posts,setPosts]=useState([])
@@ -21,6 +23,11 @@ function App() {
    const [editTitle,seteditTitle]=useState('')
   const [editContent,seteditContent]=useState('')
   const [SearchResults,setSearchResults]=useState('')
+  const {width}=useWindowresize()
+  const {data,fetchError,isLoading}=useAxiosfetch("http://localhost:3500/posts")
+  useEffect(()=>{
+    setPosts(data)
+  },[data])
   const HandleNewPost=async(e)=>{
     e.preventDefault();
     let id=Posts.length?Number(Posts[Posts.length-1].id)+1:1
@@ -42,25 +49,7 @@ function App() {
     
     
   }
-  useEffect(()=>{
-    const fetchData =async()=>{
-      try{
-        const response= await api.get('/posts')
-        setPosts(response.data)
-      }catch(err){
-        if(err.response){
-          console.log(err.response.data)
-          console.log(err.response.status)
-          console.log(err.response.headers)
-
-        }
-        console.log(`Error ${err.message}`)
-
-      }
-      
-    }
-    fetchData()
-  },[])
+ 
   useEffect(()=>{
     const  FilterResults=Posts.filter((post)=>((post.body).toLowerCase()).includes(SearchPost)||
   ((post.title).toLowerCase()).includes(SearchPost))
@@ -99,7 +88,8 @@ function App() {
     <div className="App">
       
       
-      <Header title="Single page app"/>
+      <Header title="Single page app"
+      width={width}/>
       <Nav
       SearchPost={SearchPost}
       setSearchPost={setSearchPost}
@@ -107,6 +97,9 @@ function App() {
       <Routes>
       <Route path="/"element={<Home
       Posts={SearchResults}
+      fetchError={fetchError}
+      isLoading={isLoading}
+      
       />}/>
       
       <Route path='/about' element={<About/>}/>
