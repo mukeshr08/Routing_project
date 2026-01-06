@@ -7,7 +7,7 @@ const Home = ({Posts,fetchError,isLoading}) => {
     <main className='Home'>
       {isLoading&&<p>Loading Posts</p>}
       {!isLoading&&fetchError&&<p>{fetchError}</p>}
-        {!isLoading&&!fetchError&&(Posts.length?(<Feed Posts={Posts}/>)
+      {!isLoading&&!fetchError&&(Posts.length?(<Feed Posts={Posts}/>)
         :(<p>No Post are uploaded</p>))}
     </main>
   )

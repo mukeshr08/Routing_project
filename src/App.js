@@ -16,9 +16,9 @@ import useWindowresize from './hooks/useWindowresize';
 import useAxiosfetch from './hooks/useAxiosfetch';
 function App() {
   const navigate=useNavigate()
-  const [Posts,setPosts]=useState([])
-  const [SearchPost,setSearchPost]=useState('')
-  const [getTitle,setgetTitle]=useState('')
+  const [Posts,setPosts]=useState([]);
+  const [SearchPost,setSearchPost]=useState('');
+  const [getTitle,setgetTitle]=useState('');
   const [getContent,setgetContent]=useState('')
    const [editTitle,seteditTitle]=useState('')
   const [editContent,seteditContent]=useState('')
