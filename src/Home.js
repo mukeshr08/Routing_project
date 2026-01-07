@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Feed from './Feed'
-const Home = ({Posts,fetchError,isLoading}) => {
+import { DataProvider } from './Context/DataContext'
+const Home = () => {
+  const {SearchResults,fetchError,isLoading}=useContext(DataProvider)
           
 
   return (
     <main className='Home'>
       {isLoading&&<p>Loading Posts</p>}
       {!isLoading&&fetchError&&<p>{fetchError}</p>}
-      {!isLoading&&!fetchError&&(Posts.length?(<Feed Posts={Posts}/>)
+      {!isLoading&&!fetchError&&(SearchResults.length?(<Feed Posts={SearchResults}/>)
         :(<p>No Post are uploaded</p>))}
     </main>
   )

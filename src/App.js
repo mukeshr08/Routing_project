@@ -1,4 +1,4 @@
-import {  Route,Routes, useNavigate } from 'react-router-dom';
+import {  Route,Routes} from 'react-router-dom';
 import About from './About';
 import './App.css';
 import Header from './Header';
@@ -7,128 +7,36 @@ import Missing from './Missing';
 import Nav from './Nav';
 import Footer from './Footer'
 import NewPost from './NewPost';
-import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
 import PostPage from './PostPage' 
-import api from './api/posts';
+
 import Edit from './Edit';
-import useWindowresize from './hooks/useWindowresize';
-import useAxiosfetch from './hooks/useAxiosfetch';
+
+import { DataProvider } from './Context/DataContext';
 function App() {
-  const navigate=useNavigate()
-  const [Posts,setPosts]=useState([]);
-  const [SearchPost,setSearchPost]=useState('');
-  const [getTitle,setgetTitle]=useState('');
-  const [getContent,setgetContent]=useState('')
-   const [editTitle,seteditTitle]=useState('')
-  const [editContent,seteditContent]=useState('')
-  const [SearchResults,setSearchResults]=useState('')
-  const {width}=useWindowresize()
-  const {data,fetchError,isLoading}=useAxiosfetch("http://localhost:3500/posts")
-  useEffect(()=>{
-    setPosts(data)
-  },[data])
-  const HandleNewPost=async(e)=>{
-    e.preventDefault();
-    let id=Posts.length?Number(Posts[Posts.length-1].id)+1:1
-     id=String(id)
-    const datetime=format(new Date(),'MMMM dd yyyy pp')
-    const newPost={id,title:getTitle,datetime,body:getContent}
-    try{
-      const response =await api.post('/posts',newPost)
-    const allPosts=[...Posts,response.data]
-    setPosts(allPosts)
-
-    setgetTitle('')
-    setgetContent('')
-    navigate('/')
-    }catch(err){
-        console.log(`Error ${err.message}`)
-
-      }
-    
-    
-  }
  
-  useEffect(()=>{
-    const  FilterResults=Posts.filter((post)=>((post.body).toLowerCase()).includes(SearchPost)||
-  ((post.title).toLowerCase()).includes(SearchPost))
-  setSearchResults(FilterResults.reverse())
-  },[Posts,SearchPost])
-  const HandleDelete= async(id)=>{
-    try{
-      const afterDelete=Posts.filter(post=>post.id!==id)
-      await api.delete(`/posts/${id}`)
-    setPosts(afterDelete)
-    navigate('/')
-    }catch(err){
-        console.log(`Error ${err.message}`)
-
-      }
-    
-  }
-  const HandleEdit=async(id)=>{
-    const datetime=format(new Date(),'MMMM dd,yyyy pp')
-    const updatePost={id,title:editTitle,datetime,body:editContent}
-    try{
-      const response=await api.put(`/posts/${id}`,updatePost)
-      setPosts(Posts.map((post)=>post.id===id?{...response.data}:post))
-      seteditTitle('')
-      seteditContent('')
-      navigate('/')
-      
-
-    }catch(err){
-      console.log(`Error ${err.message}`)
-    }
-
-  }
   return (
     
     <div className="App">
       
-      
-      <Header title="Single page app"
-      width={width}/>
-      <Nav
-      SearchPost={SearchPost}
-      setSearchPost={setSearchPost}
-      />
+      <DataProvider>
+      <Header title="Single page app"/>
+      <Nav/>
       <Routes>
-      <Route path="/"element={<Home
-      Posts={SearchResults}
-      fetchError={fetchError}
-      isLoading={isLoading}
-      
-      />}/>
+      <Route path="/"element={<Home/>}/>
       
       <Route path='/about' element={<About/>}/>
       
       <Route path='post'>
-      <Route index element={<NewPost
-      getTitle={getTitle}
-      setgetTitle={setgetTitle}
-      getContent={getContent}
-      setgetContent={setgetContent}
-      HandleNewPost={HandleNewPost}
-      />}/>
-      <Route path=':id' element={<PostPage 
-      Posts={Posts}
-      HandleDelete={HandleDelete}/>}/>
+      <Route index element={<NewPost/>}/>
+      <Route path=':id' element={<PostPage />}/>
        
       </Route>
-     <Route path='edit/:id' element={<Edit
-      Posts={Posts}
-      editTitle={editTitle}
-      editContent={editContent}
-      seteditTitle={seteditTitle}
-      seteditContent={seteditContent}
-      HandleEdit={HandleEdit}
-      />}/>
+     <Route path='edit/:id' element={<Edit/>}/>
       
       <Route path='*' element={<Missing/>}/>
       </Routes>
       <Footer/>
+      </DataProvider>
         
       
     </div>

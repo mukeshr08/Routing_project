@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 
 const useAxiosfetch = (URL) => {
     const [data,setdata]=useState([])
@@ -9,6 +9,8 @@ const useAxiosfetch = (URL) => {
         let isMounted=true;
         const source=axios.CancelToken.source()
         const fetchdata=async()=>{
+
+            setisloading(true)
             try{
                 const response=await axios.get(URL,{cancelToken:source.token})
                 if(isMounted){

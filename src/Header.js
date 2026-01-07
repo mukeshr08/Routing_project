@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaLaptop,FaTabletAlt,FaMobileAlt } from 'react-icons/fa'
+import { DataProvider } from './Context/DataContext'
 
-const Header = ({title,width}) => {
+const Header = ({title}) => {
+  const {width}=useContext(DataProvider)
   return (
     <div className='Header'>
         <h1>{title}</h1>

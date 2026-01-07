@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+import { DataProvider } from './Context/DataContext';
 
-const PostPage = ({Posts,HandleDelete}) => {
+const PostPage = () => {
+  const {Posts,HandleDelete}=useContext(DataProvider)
   const {id}=useParams();
   const post=Posts.find(post=>((post.id).toString())===id)
   return (
@@ -13,7 +15,7 @@ const PostPage = ({Posts,HandleDelete}) => {
             
             <>
             <h2>{post.title}</h2>
-            <p>{post.datatime}</p>
+            <p>{post.datetime}</p>
             <p>{post.body}</p>
             <Link to={`/edit/${post.id}`}><button>Edit Post</button></Link>
             <button onClick={()=>{
