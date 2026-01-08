@@ -8,7 +8,7 @@ import { format } from 'date-fns';
 
 const DataContext=createContext()
 export const DataProvider=({children})=>{
-     const navigate=useNavigate()
+  const navigate=useNavigate()
   const [Posts,setPosts]=useState([]);
   const [SearchPost,setSearchPost]=useState('');
   const [getTitle,setgetTitle]=useState('');

@@ -28,7 +28,7 @@ function App() {
       
       <Route path='post'>
       <Route index element={<NewPost/>}/>
-      <Route path=':id' element={<PostPage />}/>
+      <Route path=':id' element={<PostPage/>}/>
        
       </Route>
      <Route path='edit/:id' element={<Edit/>}/>

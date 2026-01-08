@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { DataProvider } from './Context/DataContext'
+import DataContext from './Context/DataContext'
 
 const NewPost = () => {
 
-  const {getTitle,setgetTitle,getContent,setgetContent,HandleNewPost}=useContext(DataProvider)
+  const {getTitle,setgetTitle,getContent,setgetContent,HandleNewPost}=useContext(DataContext)
   return (
     <div className='NewPost'>
         <form  onSubmit={HandleNewPost}>
